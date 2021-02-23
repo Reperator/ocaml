@@ -2862,20 +2862,32 @@ value_description:
 /* Primitive declarations */
 
 primitive_declaration:
-  EXTERNAL
-  ext = ext
-  attrs1 = attributes
-  id = mkrhs(val_ident)
-  COLON
-  ty = core_type
-  EQUAL
-  prim = raw_string+
-  attrs2 = post_item_attributes
-    { let attrs = attrs1 @ attrs2 in
-      let loc = make_loc $sloc in
-      let docs = symbol_docs $sloc in
-      Val.mk id ty ~prim ~attrs ~loc ~docs,
-      ext }
+  | EXTERNAL
+    ext = ext
+    attrs1 = attributes
+    id = mkrhs(val_ident)
+    COLON
+    ty = core_type
+    EQUAL
+    prim = raw_string+
+    attrs2 = post_item_attributes
+      { let attrs = attrs1 @ attrs2 in
+        let loc = make_loc $sloc in
+        let docs = symbol_docs $sloc in
+        Val.mk id ty ~prim ~attrs ~loc ~docs,
+        ext }
+  | EXTERNAL
+    ext = ext
+    attrs1 = attributes
+    id = mkrhs(val_ident)
+    COLON
+    ty = core_type
+    attrs2 = post_item_attributes
+      { let attrs = attrs1 @ attrs2 in
+        let loc = make_loc $sloc in
+        let docs = symbol_docs $sloc in
+        Val.mk id ty ~prim:[ id.txt ] ~attrs ~loc ~docs,
+        ext }
 ;
 
 (* Type declarations and type substitutions. *)

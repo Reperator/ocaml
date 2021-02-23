@@ -7425,3 +7425,10 @@ module M = struct
   let q =
     let%foo x and y and z in (x,y,z)
 end
+
+(* primitive-punning *)
+external prim : int -> float
+external%foo[@foo] x : _ [@bar]
+module rec M
+    : sig external f : int -> int end
+    = struct external f : int -> int end
